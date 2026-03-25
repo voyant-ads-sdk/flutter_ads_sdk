@@ -276,7 +276,7 @@ enum AdType {
 
 Lightweight, inline ad component for list-based or feed-based layouts.
 
-![Mini Native](https://raw.githubusercontent.com/flutter-ads-sdk/flutter_ads_sdk/main/example/screenshots/mini_native.png)
+![Mini Native](https://raw.githubusercontent.com/voyant-ads-sdk/flutter_ads_sdk/main/example/screenshots/mini_native.png)
 
 ---
 
@@ -284,7 +284,7 @@ Lightweight, inline ad component for list-based or feed-based layouts.
 
 Expanded native ad layout with media support and full theming control.
 
-![Native](https://raw.githubusercontent.com/flutter-ads-sdk/flutter_ads_sdk/main/example/screenshots/native.png)
+![Native](https://raw.githubusercontent.com/voyant-ads-sdk/flutter_ads_sdk/main/example/screenshots/native.png)
 
 ---
 
@@ -292,7 +292,7 @@ Expanded native ad layout with media support and full theming control.
 
 Immersive ad experience designed for high-visibility placements.
 
-![Native Fullscreen](https://raw.githubusercontent.com/flutter-ads-sdk/flutter_ads_sdk/main/example/screenshots/native_fullscreen.png)
+![Native Fullscreen](https://raw.githubusercontent.com/voyant-ads-sdk/flutter_ads_sdk/main/example/screenshots/native_fullscreen.png)
 
 ---
 
@@ -300,7 +300,7 @@ Immersive ad experience designed for high-visibility placements.
 
 Inline video player with integrated ad delivery.
 
-![Video Embedded](https://raw.githubusercontent.com/flutter-ads-sdk/flutter_ads_sdk/main/example/screenshots/video_embedded.png)
+![Video Embedded](https://raw.githubusercontent.com/voyant-ads-sdk/flutter_ads_sdk/main/example/screenshots/video_embedded.png)
 
 ---
 
@@ -308,7 +308,7 @@ Inline video player with integrated ad delivery.
 
 User-initiated full-screen ad format designed for optional rewards.
 
-![Rewarding](https://raw.githubusercontent.com/flutter-ads-sdk/flutter_ads_sdk/main/example/screenshots/rewarding.png)
+![Rewarding](https://raw.githubusercontent.com/voyant-ads-sdk/flutter_ads_sdk/main/example/screenshots/rewarding.png)
 
 ## Theming & UI Integration
 
