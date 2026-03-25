@@ -1,8 +1,8 @@
 name: flutter_ads_sdk
 description: Flutter Ads SDK for Web, Mobile, and Desktop. Developer-controlled monetization with native UI ads, smart routing, transparent tracking, and no hidden logic.
 homepage: https://flutterads.com
-repository: https://github.com/flutter-ads-sdk/flutter_ads_sdk
-issue_tracker: https://github.com/flutter-ads-sdk/flutter_ads_sdk/issues
+repository: https://github.com/voyant-ads-sdk/flutter_ads_sdk
+issue_tracker: https://github.com/voyant-ads-sdk/flutter_ads_sdk/issues
 documentation: https://voyantnetworks.com
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -19,7 +19,7 @@ documentation: https://voyantnetworks.com
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 0.1.0
+version: 0.1.1
 topics:
   - ads
   - advertising
