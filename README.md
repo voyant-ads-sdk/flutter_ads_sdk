@@ -8,6 +8,13 @@ No hidden logic. No forced layouts. No automatic refresh cycles.
 
 ---
 
+## 🌐 Links
+
+- 🚀 Docs: https://flutterads.com/docs
+- 🌐 Platform: https://flutterads.com
+- 🔑 Dashboard: https://console.voyantnetworks.com
+- 🏢 Voyant Networks: https://voyantnetworks.com
+
 ## ✨ Features
 
 - Flutter Ads SDK for Web, Android, iOS, Windows, macOS, Linux
@@ -66,19 +73,6 @@ dependencies:
   flutter_ads_sdk: latest
 
 ```
-
-## 🚀 Get Started
-
-Create your application and start monetizing in minutes.
-
-**🔑 Get API credentials**  
-https://console.voyantnetworks.com
-
-**🌐 Explore the platform**  
-https://flutterads.com
-
-**🏢 Parent Website**  
-https://voyantnetworks.com
 
 ---
 

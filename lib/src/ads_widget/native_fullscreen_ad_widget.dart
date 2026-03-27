@@ -135,7 +135,7 @@ class _NativeFullScreenAdWidgetState extends State<NativeFullScreenAdWidget> {
     );
   }
 
-  _handleNativeAdVisibility(
+  void _handleNativeAdVisibility(
     VisibilityInfo visibilityInfo,
     NativeFullScreenAdDataModel adModel,
   ) {

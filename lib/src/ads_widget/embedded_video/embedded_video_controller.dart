@@ -173,7 +173,10 @@ class EmbeddedVideoController {
     });
   }
 
-  onCompletion(VideoEmbeddedAdDataModel adModel, bool hasImpression) async {
+  Future<void> onCompletion(
+    VideoEmbeddedAdDataModel adModel,
+    bool hasImpression,
+  ) async {
     showAd.value = null;
     adWidget = null;
     loadingState = AdLoadingState.notNeeded;

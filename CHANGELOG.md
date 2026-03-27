@@ -12,6 +12,10 @@
   - Rewarding Ads
   - Embedded Video Ads
 
-  ## 0.1.1
+## 0.1.1
 
 ### Minor Changes
+
+## 0.1.2
+
+### Minor changes in readme

@@ -93,7 +93,7 @@ class _MiniNativeAdWidgetState extends State<MiniNativeAdWidget> {
     return const SizedBox.shrink();
   }
 
-  _handleNativeAdVisibility(
+  void _handleNativeAdVisibility(
     VisibilityInfo visibilityInfo,
     MiniNativeAdDataModel adModel,
   ) {

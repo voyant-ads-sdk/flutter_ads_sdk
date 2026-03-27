@@ -161,7 +161,7 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
     );
   }
 
-  _handleNativeAdVisibility(
+  void _handleNativeAdVisibility(
     VisibilityInfo visibilityInfo,
     NativeAdDataModel adModel,
   ) {
