@@ -73,7 +73,7 @@ final class FlutterAds extends FlutterAdsWrapperBase {
   static final String adNetworkName = "Flutter Ads";
   final String _apiBaseUrl = isDev
       ? "http://127.0.0.1:4000"
-      : "https://api.voyantnetworks.com";
+      : "https://core.voyantnetworks.com";
   final Dio _dio = Dio(
     BaseOptions(
       connectTimeout: const Duration(seconds: 10),

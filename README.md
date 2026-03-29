@@ -6,6 +6,10 @@ Monetize Flutter apps with full control using smart ad routing, transparent ad d
 
 No hidden logic. No forced layouts. No automatic refresh cycles.
 
+⚠️ **Deprecation Notice**  
+Versions <1.0.0 are deprecated and no longer supported.  
+Please upgrade to >=1.0.0.
+
 ---
 
 ## 🌐 Links
@@ -70,7 +74,7 @@ No platform-specific integrations are required.
 
 ```
 dependencies:
-  flutter_ads_sdk: latest
+  flutter_ads_sdk: ^1.0.0
 
 ```
 

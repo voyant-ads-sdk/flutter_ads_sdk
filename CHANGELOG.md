@@ -19,3 +19,8 @@
 ## 0.1.2
 
 ### Minor changes in readme
+
+## 1.0.0
+
+- 🚀 Major release
+- ⚠️ Versions <1.0.0 are deprecated and no longer supported
