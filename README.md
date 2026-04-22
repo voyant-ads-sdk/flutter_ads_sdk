@@ -74,7 +74,7 @@ No platform-specific integrations are required.
 
 ```
 dependencies:
-  flutter_ads_sdk: ^1.0.1
+  flutter_ads_sdk: ^2.0.0
 
 ```
 
