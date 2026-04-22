@@ -74,7 +74,7 @@ No platform-specific integrations are required.
 
 ```
 dependencies:
-  flutter_ads_sdk: ^1.0.0
+  flutter_ads_sdk: ^1.0.1
 
 ```
 
@@ -118,6 +118,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await FlutterAds.instance.ensureInitialized(
+    accountId: "YOUR_ACCOUNT_ID",
     appId: 'YOUR_APP_ID',
     apiKey: 'YOUR_API_KEY',
     sdkSecret: 'YOUR_SDK_SECRET',
@@ -205,6 +206,7 @@ https://console.voyantnetworks.com
 
 After registering your app, generate:
 
+- `accountId`
 - `appId`
 - `apiKey`
 - `sdkSecret`
@@ -221,6 +223,7 @@ Add the generated credentials inside your Flutter application:
 
 ```dart
 await FlutterAds.instance.ensureInitialized(
+  accountId: "YOUR_ACCOUNT_ID",
   appId: 'YOUR_APP_ID',
   apiKey: 'YOUR_API_KEY',
   sdkSecret: 'YOUR_SDK_SECRET',

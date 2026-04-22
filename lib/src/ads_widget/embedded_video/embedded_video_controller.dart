@@ -16,7 +16,7 @@ class EmbeddedVideoController {
   final Function(bool isFullScreen)? onFullscreenToggle;
   final VideoEmbeddedAdDataModel? Function() fetchAd;
   final VideoEmbeddedAdStylingModel styling;
-  final Function(VideoEmbeddedAdDataModel adModel, EventType eventType)
+  final void Function(VideoEmbeddedAdDataModel adModel, EventType eventType)
   registerImpression;
   final bool playInitially;
 

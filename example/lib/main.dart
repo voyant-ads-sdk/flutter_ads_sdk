@@ -11,11 +11,13 @@ import 'previews/video_embedded_preview.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MediaKit.ensureInitialized();
+  // DEMO KEYS USED
   await FlutterAds.instance.ensureInitialized(
-    appId: 'XXXXXXXXXXXXXXXX',
-    apiKey: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    accountId: "00000000036c256b",
+    appId: '00000000033f35e5',
+    apiKey: '9a444ccfda2f2db31d103868a8e1b2f8',
     sdkSecret:
-        'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+        '46a18ed8bde9d0131ee22c0ed2fb41b54effec0bcffa71b8cb6c08a3edcf0927',
   );
   FlutterAds.instance.addDummyData();
   runApp(const MyApp());

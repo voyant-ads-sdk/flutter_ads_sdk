@@ -20,7 +20,7 @@ import '../widgets/video_ad_widget.dart';
 class RewardingAdWidget extends StatefulWidget {
   final RewardingAdStylingModel styling;
   final RewardingAdDataModel currentModel;
-  final Function(VisibilityInfo visibilityInfo, EventType eventType)
+  final void Function(VisibilityInfo visibilityInfo, EventType eventType)
   registerImpression;
 
   const RewardingAdWidget({
@@ -157,7 +157,7 @@ class _RewardingAdWidgetState extends State<RewardingAdWidget> {
     if (mounted) setState(() {});
   }
 
-  _handleVideoImpression() async {
+  Future<void> _handleVideoImpression() async {
     hideTimer?.cancel();
     if (player.state.playing) {
       await player.pause();

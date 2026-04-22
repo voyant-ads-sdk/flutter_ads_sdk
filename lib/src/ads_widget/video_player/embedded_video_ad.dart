@@ -69,7 +69,7 @@ class _VideoAdState extends State<EmbeddedVideoAd> {
     super.dispose();
   }
 
-  _initialize() async {
+  Future<void> _initialize() async {
     if (widget.intitialVolume != null) {
       await adPlayer.setVolume(widget.intitialVolume!);
     } else {

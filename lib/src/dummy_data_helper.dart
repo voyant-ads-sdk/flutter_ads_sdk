@@ -184,7 +184,7 @@ class FlutterAdsDummyDataHelper {
     );
   }
 
-  static addTestMiniNativeAd({
+  static void addTestMiniNativeAd({
     required ImageMediaModel logoModel,
     required String title,
     required String subtitle,
@@ -208,7 +208,7 @@ class FlutterAdsDummyDataHelper {
     );
   }
 
-  static addTestNativeAd({
+  static void addTestNativeAd({
     required ImageMediaModel logoModel,
     required String primaryTitle,
     required String primarySubtitle,
@@ -246,7 +246,7 @@ class FlutterAdsDummyDataHelper {
     );
   }
 
-  static addTestNativeFullScreenAd({
+  static void addTestNativeFullScreenAd({
     required ImageMediaModel logoModel,
     required String primaryTitle,
     required String primarySubtitle,
@@ -284,7 +284,7 @@ class FlutterAdsDummyDataHelper {
     );
   }
 
-  static addTestRewardingAd({
+  static void addTestRewardingAd({
     required ImageMediaModel logoModel,
     required String primaryTitle,
     required String primarySubtitle,
@@ -322,7 +322,7 @@ class FlutterAdsDummyDataHelper {
     );
   }
 
-  static addTestVideoEmbeddedAd({
+  static void addTestVideoEmbeddedAd({
     required ImageMediaModel logoModel,
     required String primaryTitle,
     required String primarySubtitle,

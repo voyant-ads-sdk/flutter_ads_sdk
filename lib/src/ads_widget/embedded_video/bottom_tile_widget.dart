@@ -6,7 +6,7 @@ import '../../widgets/brand_logo_widget.dart';
 class BottomTileWidget extends StatelessWidget {
   final VideoEmbeddedAdDataModel adModel;
   final VideoEmbeddedAdStylingModel styling;
-  final Function(VideoEmbeddedAdDataModel adModel, EventType eventType)
+  final void Function(VideoEmbeddedAdDataModel adModel, EventType eventType)
   registerImpression;
 
   const BottomTileWidget({

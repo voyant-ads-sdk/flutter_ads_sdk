@@ -20,8 +20,8 @@ import 'package:crypto/crypto.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
-import 'package:safe_device/safe_device.dart';
-import 'package:safe_device/safe_device_config.dart';
+// import 'package:safe_device/safe_device.dart';
+// import 'package:safe_device/safe_device_config.dart';
 import 'package:toastification/toastification.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter/foundation.dart';
@@ -36,13 +36,14 @@ import 'ads_widget/mini_native_ad_widget.dart';
 import 'ads_widget/native_ad_widget.dart';
 import 'ads_widget/native_fullscreen_ad_widget.dart';
 import 'ads_widget/rewarding_ad_widget.dart';
+import 'cross_platform_helper/cross_platform_helper.dart';
 import 'models/data_models/ad_data_model.dart';
 import 'models/data_models/mini_native_ad_data_model.dart';
 import 'models/data_models/native_ad_data_model.dart';
 import 'models/data_models/native_fullscreen_ad_data_model.dart';
 import 'models/data_models/rewarding_ad_data_model.dart';
 import 'models/data_models/video_embedded_ad_data_model.dart';
-import 'non_web_headless.dart' if (dart.library.js_interop) 'web_headless.dart';
+// import 'non_web_headless.dart' if (dart.library.js_interop) 'web_headless.dart';
 import 'package:collection/collection.dart';
 
 import 'widgets/ad_tap_widget.dart';
@@ -91,6 +92,7 @@ final class FlutterAds extends FlutterAdsWrapperBase {
   //
   AgeGroup? ageGroup;
   UserGender? gender;
+  late final String _accountId;
   late final String _appId;
   late final String _apiKey;
   late final String _sdkSecret;
@@ -146,6 +148,7 @@ final class FlutterAds extends FlutterAdsWrapperBase {
   /// - Performs device safety checks
   /// - Prepares internal networking layer
   Future<void> ensureInitialized({
+    required String accountId,
     required String appId,
     required String apiKey,
     required String sdkSecret,
@@ -153,26 +156,37 @@ final class FlutterAds extends FlutterAdsWrapperBase {
     if (_initialized) return;
     MediaKit.ensureInitialized();
     WidgetsFlutterBinding.ensureInitialized();
-    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
-      SafeDevice.init(
-        SafeDeviceConfig(
-          mockLocationCheckEnabled: false,
-        ), // disables mock location check on Android
-      );
-    }
+    CrossPlatformHelperStub.init();
+    // if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+    // CrossPlatformHelperStub.init();
+    // SafeDevice.init(
+    //   SafeDeviceConfig(
+    //     mockLocationCheckEnabled: false,
+    //   ), // disables mock location check on Android
+    // );
+    // }
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    _accountId = accountId;
     _appId = appId;
     _apiKey = apiKey;
     _sdkSecret = sdkSecret;
     _packageName = packageInfo.packageName;
     await _setDeviceId();
     _setPlatform();
-    _isSafeDevice = await _isSafe();
+    _isSafeDevice = await CrossPlatformHelperStub.isSafe();
     _initialized = true;
-    if (kDebugMode) print(_packageName);
-    if (kDebugMode) print(_isSafeDevice);
-    if (kDebugMode) print(_deviceId);
-    if (kDebugMode) print(_platform);
+    // if (isDev) print(_packageName);
+    // if (isDev) print(_isSafeDevice);
+    // if (isDev) print(_deviceId);
+    // if (isDev) print(_platform);
+    if (isDev) {
+      _log('INIT', {
+        'package': _packageName,
+        'safe': _isSafeDevice,
+        'deviceId': _deviceId,
+        'platform': _platform,
+      });
+    }
   }
 
   /// Enables automatic background ad refetching.
@@ -181,7 +195,7 @@ final class FlutterAds extends FlutterAdsWrapperBase {
   /// - Device context is cached
   /// - Ads are automatically requested when inventory runs low
   /// - Future calls to [ensureAdsAvailable] do not require BuildContext
-  enableAutoFetch(BuildContext context) {
+  void enableAutoFetch(BuildContext context) {
     _deviceType = _getDeviceType(context);
     _autoFetch = true;
   }
@@ -189,12 +203,12 @@ final class FlutterAds extends FlutterAdsWrapperBase {
   /// Disables automatic background ad refetching.
   ///
   /// Future fetch calls will require BuildContext again.
-  disableAutoFetch(BuildContext context) {
+  void disableAutoFetch(BuildContext context) {
     _deviceType = _getDeviceType(context);
     _autoFetch = false;
   }
 
-  _setDeviceId() async {
+  Future<void> _setDeviceId() async {
     if (!Hive.isBoxOpen("flutter_ads_sdk_settings")) {
       await Hive.initFlutter();
     }
@@ -249,39 +263,39 @@ final class FlutterAds extends FlutterAdsWrapperBase {
     return DeviceType.desktop;
   }
 
-  Future<bool> _isSafe() async {
-    // Release mode is required
-    if (!kReleaseMode) return false;
-    // 🌐 WEB
-    if (kIsWeb) {
-      // Headless / automation → unsafe
-      if (isHeadlessWeb()) return false;
-      return true;
-    }
-    // 🖥️ DESKTOP (no reliable signals)
-    if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
-      return true;
-    }
-    // 🤖 ANDROID
-    if (Platform.isAndroid) {
-      final isJailBroken = await SafeDevice.isJailBroken;
-      final isRealDevice = await SafeDevice.isRealDevice;
-      final isSafeDevice = await SafeDevice.isSafeDevice;
-      if (!isRealDevice || isJailBroken || !isSafeDevice) {
-        return false;
-      }
-    }
-    // 🍎 IOS
-    if (Platform.isIOS) {
-      final isJailBroken = await SafeDevice.isJailBrokenCustom;
-      final isRealDevice = await SafeDevice.isRealDevice;
-      final isSafeDevice = await SafeDevice.isSafeDevice;
-      if (!isRealDevice || isJailBroken || !isSafeDevice) {
-        return false;
-      }
-    }
-    return true;
-  }
+  // Future<bool> _isSafe() async {
+  //   // Release mode is required
+  //   if (!kReleaseMode) return false;
+  //   // 🌐 WEB
+  //   if (kIsWeb) {
+  //     // Headless / automation → unsafe
+  //     if (isHeadlessWeb()) return false;
+  //     return true;
+  //   }
+  //   // 🖥️ DESKTOP (no reliable signals)
+  //   if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+  //     return true;
+  //   }
+  //   // 🤖 ANDROID
+  //   if (Platform.isAndroid) {
+  //     final isJailBroken = await SafeDevice.isJailBroken;
+  //     final isRealDevice = await SafeDevice.isRealDevice;
+  //     final isSafeDevice = await SafeDevice.isSafeDevice;
+  //     if (!isRealDevice || isJailBroken || !isSafeDevice) {
+  //       return false;
+  //     }
+  //   }
+  //   // 🍎 IOS
+  //   if (Platform.isIOS) {
+  //     final isJailBroken = await SafeDevice.isJailBrokenCustom;
+  //     final isRealDevice = await SafeDevice.isRealDevice;
+  //     final isSafeDevice = await SafeDevice.isSafeDevice;
+  //     if (!isRealDevice || isJailBroken || !isSafeDevice) {
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // }
 
   //############### BLOC
   String _stableStringify(Map<String, dynamic> map) {
@@ -304,7 +318,7 @@ final class FlutterAds extends FlutterAdsWrapperBase {
     return digest.toString(); // hex string
   }
 
-  String _generateNonce({int minLength = 16, int maxLength = 32}) {
+  String _generateNonce({int minLength = 8, int maxLength = 16}) {
     final rand = Random.secure();
     final length = minLength + rand.nextInt(maxLength - minLength + 1);
     const chars =
@@ -321,14 +335,22 @@ final class FlutterAds extends FlutterAdsWrapperBase {
     String? token,
     String? campaignId,
   }) {
+    // if (isDev) print(_packageName);
+    if (isDev) {
+      _log('PAYLOAD_BASE', {
+        'package': _packageName,
+        'adType': adType.apiValue,
+      });
+    }
     Map<String, dynamic> payload = {
+      'accountId': _accountId,
       'deviceId': _deviceId,
       'platform': _platform,
       'device': _deviceType?.apiValue,
       'packageName': _packageName,
       'appId': _appId,
       'apiKey': _apiKey,
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
+      'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
       'nonce': _generateNonce(),
       'adType': adType.apiValue,
     };
@@ -396,19 +418,24 @@ final class FlutterAds extends FlutterAdsWrapperBase {
         if (eventType == EventType.click) {
           payload["category"] = adModel.category;
         }
-        if (kDebugMode) print('dio body: $payload');
+        if (isDev) _log('REQUEST', payload); //print('dio body: $payload');
         var resp = await _dio.post(
           "$_apiBaseUrl/add_campaign_impression",
           data: payload,
           options: Options(
+            contentType: Headers.formUrlEncodedContentType,
             validateStatus: (status) {
               return status != null && status < 500;
             },
           ),
         );
         final data = resp.data;
-        if (kDebugMode) {
-          print('_registerImpression: $eventType repsonse => $data');
+        if (isDev) {
+          // print('_registerImpression: $eventType repsonse => $data');
+          _log('IMPRESSION_RESPONSE', {
+            'event': eventType.apiValue,
+            'response': data,
+          });
         }
         if (resp.statusCode == HttpStatus.ok) {
           if (eventType == EventType.impression && token != null) {
@@ -417,7 +444,10 @@ final class FlutterAds extends FlutterAdsWrapperBase {
           }
         }
       } catch (e) {
-        if (kDebugMode) print("registerImpression ads error: $e");
+        if (isDev) {
+          // print("registerImpression ads error: $e");
+          _log('ERROR_IMPRESSION', e.toString());
+        }
       }
     }
   }
@@ -453,7 +483,13 @@ final class FlutterAds extends FlutterAdsWrapperBase {
       try {
         int now = DateTime.now().millisecondsSinceEpoch;
         bool hasEnoughAds = _hasEnoughAds(adType: adType);
-        if (kDebugMode) print("=====hasEnoughAds > ${_miniNativeAds.length}");
+        if (isDev) {
+          // print("=====hasEnoughAds > ${_miniNativeAds.length}");
+          _log('INVENTORY', {
+            'adType': adType.apiValue,
+            'count': _dataFromAdModel(adType).length,
+          });
+        }
         if (hasEnoughAds && !isDev) return;
         //
         final last = _lastRequested[adType];
@@ -468,33 +504,40 @@ final class FlutterAds extends FlutterAdsWrapperBase {
         }
         Map<String, dynamic> payload = _getPayloadBody(adType: adType);
         //
-        if (kDebugMode) print('dio body: $payload');
+        if (isDev) _log('REQUEST', payload); //print('dio body: $payload');
         _lastRequested[adType] = now;
         var resp = await _dio.post(
           "$_apiBaseUrl/get_campaigns",
           data: payload,
           options: Options(
-            // validateStatus: (status) {
-            //   return status != null && status < 500;
-            // },
+            contentType: Headers.formUrlEncodedContentType,
+            validateStatus: (status) {
+              return status != null && status < 500;
+            },
           ),
         );
         final data = resp.data;
-        if (kDebugMode) print('resp data: $data');
+        if (isDev) _log('RESPONSE', data); //print('resp data: $data');
         if (resp.statusCode == HttpStatus.ok) {
           if (data is List) {
             _processModels(adType, data);
           }
         }
       } catch (e) {
-        if (kDebugMode) print("fetch ads error: $e");
+        if (isDev) {
+          //print("fetch ads error: $e");
+          _log('ERROR_FETCH', e.toString());
+        }
       }
     } else {
-      if (kDebugMode) print("non safe device");
+      if (isDev) {
+        // print("non safe device");
+        _log('SECURITY', 'Blocked: unsafe device');
+      }
     }
   }
 
-  _processModels(AdType adType, List data) {
+  void _processModels(AdType adType, List data) {
     switch (adType) {
       case AdType.miniNative:
         List<MiniNativeAdDataModel> models = MiniNativeAdDataModel.fromJson(
@@ -547,7 +590,10 @@ final class FlutterAds extends FlutterAdsWrapperBase {
     if (testMode) {
       showAdAfterEverySeconds = 10;
     }
-    if (kDebugMode) print("showAdAfterEverySeconds: $showAdAfterEverySeconds");
+    if (isDev) {
+      // print("showAdAfterEverySeconds: $showAdAfterEverySeconds");
+      _log('VIDEO_AD_INTERVAL', showAdAfterEverySeconds);
+    }
     return EmbeddedVideoPlayer(
       videoPath: path,
       playInitially: playInitially,
@@ -987,15 +1033,19 @@ final class FlutterAds extends FlutterAdsWrapperBase {
     );
   }
 
-  _sendReport(
+  Future<void> _sendReport(
     AdDataModel adModel,
     String reportType,
     BuildContext context,
   ) async {
-    if (kDebugMode) {
-      print(
-        'already reported ${_campaignReports[adModel.adId]}, $_campaignReports',
-      );
+    if (isDev) {
+      // print(
+      //   'already reported ${_campaignReports[adModel.adId]}, $_campaignReports',
+      // );
+      _log('REPORT_DUPLICATE', {
+        'adId': adModel.adId,
+        'existing': _campaignReports[adModel.adId],
+      });
     }
     if (_campaignReports[adModel.adId] == reportType) {
       _showToast(
@@ -1009,10 +1059,11 @@ final class FlutterAds extends FlutterAdsWrapperBase {
     }
     Map<String, dynamic> payload = {
       'deviceId': _deviceId,
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
+      'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
       'campaignId': adModel.adId,
       'reportType': reportType,
       'packageName': _packageName,
+      'accountId': _accountId,
       'appId': _appId,
       'apiKey': _apiKey,
       'nonce': _generateNonce(),
@@ -1024,7 +1075,16 @@ final class FlutterAds extends FlutterAdsWrapperBase {
     //
     if (_initialized && _isSafeDevice || _initialized && isDev) {
       try {
-        var resp = await _dio.post("$_apiBaseUrl/report", data: payload);
+        var resp = await _dio.post(
+          "$_apiBaseUrl/report",
+          data: payload,
+          options: Options(
+            contentType: Headers.formUrlEncodedContentType,
+            validateStatus: (status) {
+              return status != null && status < 500;
+            },
+          ),
+        );
         final data = resp.data;
         if (data is bool) {
           _campaignReports[adModel.adId] = reportType;
@@ -1036,16 +1096,22 @@ final class FlutterAds extends FlutterAdsWrapperBase {
             subtitle: 'It may take some time to take effect',
           );
         }
-        if (kDebugMode) print('resp data: $data');
+        if (isDev) _log('RESPONSE', data); //print('resp data: $data');
       } catch (e) {
-        if (kDebugMode) print("fetch ads error: $e");
+        if (isDev) {
+          //print("fetch ads error: $e");
+          _log('ERROR_FETCH', e.toString());
+        }
       }
     } else {
-      if (kDebugMode) print("non safe device");
+      if (isDev) {
+        // print("non safe device");
+        _log('SECURITY', 'Blocked: unsafe device');
+      }
     }
   }
 
-  _showToast({
+  void _showToast({
     required BuildContext context,
     Color mainColor = Colors.red,
     required String title,
@@ -1071,6 +1137,12 @@ final class FlutterAds extends FlutterAdsWrapperBase {
       autoCloseDuration: const Duration(seconds: 2),
       borderRadius: BorderRadius.circular(8),
     );
+  }
+
+  void _log(String tag, dynamic msg) {
+    if (isDev) {
+      print('[FlutterAds][$tag] $msg');
+    }
   }
 }
 

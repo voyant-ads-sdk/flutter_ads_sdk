@@ -14,7 +14,7 @@ class NativeFullScreenAdWidget extends StatefulWidget {
   final Widget? placeholderWidget;
   final NativeFullScreenAdDataModel? initialData;
   final NativeFullScreenAdDataModel? Function() fetchAd;
-  final Function(NativeFullScreenAdDataModel adModel, EventType eventType)
+  final void Function(NativeFullScreenAdDataModel adModel, EventType eventType)
   registerImpression;
 
   const NativeFullScreenAdWidget({

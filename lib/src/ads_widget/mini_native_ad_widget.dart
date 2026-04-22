@@ -12,7 +12,7 @@ class MiniNativeAdWidget extends StatefulWidget {
   final Widget? placeholderWidget;
   final MiniNativeAdDataModel? initialData;
   final MiniNativeAdDataModel? Function() fetchAd;
-  final Function(MiniNativeAdDataModel adModel, EventType eventType)
+  final void Function(MiniNativeAdDataModel adModel, EventType eventType)
   registerImpression;
 
   const MiniNativeAdWidget({

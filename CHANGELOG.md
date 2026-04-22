@@ -24,3 +24,11 @@
 
 - 🚀 Major release
 - ⚠️ Versions <1.0.0 are deprecated and no longer supported
+
+## 1.0.1
+
+- Minor Changes
+
+## 2.0.0
+
+- Updated according to backend

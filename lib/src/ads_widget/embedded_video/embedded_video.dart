@@ -19,7 +19,7 @@ class EmbeddedVideoPlayer extends StatefulWidget {
   final Function(bool isFullScreen)? onFullscreenToggle;
   final int showAdAfterEverySeconds;
   final bool playInitially;
-  final Function(VideoEmbeddedAdDataModel adModel, EventType eventType)
+  final void Function(VideoEmbeddedAdDataModel adModel, EventType eventType)
   registerImpression;
 
   const EmbeddedVideoPlayer({

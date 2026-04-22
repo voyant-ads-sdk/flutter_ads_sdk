@@ -18,7 +18,7 @@ class NativeAdWidget extends StatefulWidget {
   final NativeAdDataModel? Function() fetchAd;
   final HeightConstraint heightConstraint;
   final double width;
-  final Function(NativeAdDataModel adModel, EventType eventType)
+  final void Function(NativeAdDataModel adModel, EventType eventType)
   registerImpression;
 
   const NativeAdWidget({
