@@ -7,7 +7,7 @@ class CrossPlatformHelperStub {
   static void init() {
     if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
       SafeDevice.init(
-        SafeDeviceConfig(
+        const SafeDeviceConfig(
           mockLocationCheckEnabled: false,
         ), // disables mock location check on Android
       );

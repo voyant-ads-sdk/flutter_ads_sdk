@@ -27,7 +27,7 @@ class _VideoEmbeddedAdPreviewState extends State<VideoEmbeddedAdPreview> {
       body: Center(
         child: SizedBox(
           child: FlutterAds.instance.getVideoPlayerWithEmbeddedAdsWidget(
-            'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            'https://cdn.voyantnetworks.com/sample_video_file.mp4',
             showAdAfterEverySeconds: 5,
             testMode: true,
             heightConstraint: MaxHeightConstraint(700),

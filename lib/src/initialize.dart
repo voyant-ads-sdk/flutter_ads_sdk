@@ -71,7 +71,7 @@ final class FlutterAds extends FlutterAdsWrapperBase {
   FlutterAds._internal();
   static FlutterAds get instance => _singleton;
   //
-  static final String adNetworkName = "Flutter Ads";
+  static const String adNetworkName = "Flutter Ads";
   final String _apiBaseUrl = isDev
       ? "http://127.0.0.1:4000"
       : "https://core.voyantnetworks.com";
@@ -83,7 +83,7 @@ final class FlutterAds extends FlutterAdsWrapperBase {
       headers: {'Content-Type': 'application/json'},
     ),
   );
-  static final bool isDev = !kReleaseMode;
+  static const bool isDev = !kReleaseMode;
   final int _adThresholdCount = 2;
   bool _initialized = false;
   bool audioMuted = false;
@@ -92,6 +92,7 @@ final class FlutterAds extends FlutterAdsWrapperBase {
   //
   AgeGroup? ageGroup;
   UserGender? gender;
+  late final bool _showDevLogs;
   late final String _accountId;
   late final String _appId;
   late final String _apiKey;
@@ -152,11 +153,13 @@ final class FlutterAds extends FlutterAdsWrapperBase {
     required String appId,
     required String apiKey,
     required String sdkSecret,
+    bool showDevLogs = false,
   }) async {
     if (_initialized) return;
     MediaKit.ensureInitialized();
     WidgetsFlutterBinding.ensureInitialized();
     CrossPlatformHelperStub.init();
+    _showDevLogs = showDevLogs;
     // if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
     // CrossPlatformHelperStub.init();
     // SafeDevice.init(
@@ -505,6 +508,8 @@ final class FlutterAds extends FlutterAdsWrapperBase {
         Map<String, dynamic> payload = _getPayloadBody(adType: adType);
         //
         if (isDev) _log('REQUEST', payload); //print('dio body: $payload');
+        if (isDev) _log('REQUEST URL', _apiBaseUrl);
+
         _lastRequested[adType] = now;
         var resp = await _dio.post(
           "$_apiBaseUrl/get_campaigns",
@@ -1140,7 +1145,7 @@ final class FlutterAds extends FlutterAdsWrapperBase {
   }
 
   void _log(String tag, dynamic msg) {
-    if (isDev) {
+    if (isDev && _showDevLogs) {
       print('[FlutterAds][$tag] $msg');
     }
   }

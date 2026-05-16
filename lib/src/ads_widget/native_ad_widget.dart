@@ -79,16 +79,16 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
   }
 
   void _tryRefreshAd() {
-    if (kDebugMode) print("debug: _tryRefreshAd: called");
+    // if (kDebugMode) print("debug: _tryRefreshAd: called");
     final newAd = widget.fetchAd();
     if (newAd == null) {
-      if (kDebugMode) print("debug: _tryRefreshAd: new ad null");
+      // if (kDebugMode) print("debug: _tryRefreshAd: new ad null");
       refreshTimer?.cancel();
       refreshTimer = Timer(Duration(seconds: _retrySeconds), _tryRefreshAd);
       return;
     }
     if (!mounted) return;
-    if (kDebugMode) print("debug: _tryRefreshAd: new ad recived");
+    // if (kDebugMode) print("debug: _tryRefreshAd: new ad recived");
     refreshTimer?.cancel();
     refreshTimer = Timer.periodic(
       Duration(seconds: _refreshSeconds),

@@ -13,11 +13,11 @@ void main() async {
   MediaKit.ensureInitialized();
   // DEMO KEYS USED
   await FlutterAds.instance.ensureInitialized(
-    accountId: "00000000036c256b",
-    appId: '00000000033f35e5',
-    apiKey: '9a444ccfda2f2db31d103868a8e1b2f8',
+    accountId: "000000000395c86a",
+    appId: '00000000039fd228',
+    apiKey: '42eabe71b188d462cb02602a17bc0e38',
     sdkSecret:
-        '46a18ed8bde9d0131ee22c0ed2fb41b54effec0bcffa71b8cb6c08a3edcf0927',
+        '5033c45a00568a57382ba45c617b16e71051e06094e67616ad81f2bcf3e46334',
   );
   FlutterAds.instance.addDummyData();
   runApp(const MyApp());

@@ -54,7 +54,7 @@ class _MiniNativeAdWidgetState extends State<MiniNativeAdWidget> {
   }
 
   void _startRefreshTimer() {
-    if (kDebugMode) print("debug: _startRefreshTimer: starting:=>");
+    // if (kDebugMode) print("debug: _startRefreshTimer: starting:=>");
     refreshTimer?.cancel();
     refreshTimer = Timer.periodic(
       Duration(seconds: _refreshSeconds),
@@ -63,16 +63,16 @@ class _MiniNativeAdWidgetState extends State<MiniNativeAdWidget> {
   }
 
   void _tryRefreshAd() {
-    if (kDebugMode) print("debug: _tryRefreshAd: called");
+    // if (kDebugMode) print("debug: _tryRefreshAd: called");
     final newAd = widget.fetchAd();
     if (newAd == null) {
-      if (kDebugMode) print("debug: _tryRefreshAd: new ad null");
+      // if (kDebugMode) print("debug: _tryRefreshAd: new ad null");
       // 🔥 retry faster (10s)
       refreshTimer?.cancel();
       refreshTimer = Timer(Duration(seconds: _retrySeconds), _tryRefreshAd);
       return;
     }
-    if (kDebugMode) print("debug: _tryRefreshAd: new ad recived");
+    // if (kDebugMode) print("debug: _tryRefreshAd: new ad recived");
     // ✅ got new ad → restart normal 45s cycle
     refreshTimer?.cancel();
     refreshTimer = Timer.periodic(

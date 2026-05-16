@@ -32,3 +32,7 @@
 ## 2.0.0
 
 - Updated according to backend
+
+## 2.1.0
+
+- Added data model imports

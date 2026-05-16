@@ -28,3 +28,9 @@ export 'src/models/media_models/media_model.dart';
 export 'src/models/media_models/image_media_model.dart';
 export 'src/models/media_models/carousel_media_model.dart';
 export 'src/models/media_models/video_media_model.dart';
+//
+export 'src/models/data_models/mini_native_ad_data_model.dart';
+export 'src/models/data_models/native_ad_data_model.dart';
+export 'src/models/data_models/native_fullscreen_ad_data_model.dart';
+export 'src/models/data_models/rewarding_ad_data_model.dart';
+export 'src/models/data_models/video_embedded_ad_data_model.dart';
